@@ -3,202 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>赛博生肖测试 - 非正常人类鉴定器</title>
+    <title>劳动报酬计算器</title>
     <style>
-        body {
-            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #ff4757;
-            font-size: 28px;
-        }
-        p.subtitle {
-            color: #747d8c;
-            margin-bottom: 30px;
-        }
-        .question-box {
-            display: none;
-            text-align: left;
-        }
-        .question-box.active {
-            display: block;
-        }
-        .question-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #2f3542;
-        }
-        .option {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 15px;
-            background: #f1f2f6;
-            border: 2px solid transparent;
-            border-radius: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: left;
-        }
-        .option:hover {
-            background: #dfe4ea;
-            border-color: #ff4757;
-        }
-        #result-box {
-            display: none;
-        }
-        .animal-icon {
-            font-size: 80px;
-            margin: 20px 0;
-        }
-        .animal-name {
-            font-size: 32px;
-            font-weight: bold;
-            color: #ff4757;
-            margin-bottom: 10px;
-        }
-        .animal-desc {
-            font-size: 18px;
-            line-height: 1.6;
-            color: #57606f;
-        }
-        button.restart-btn {
-            margin-top: 30px;
-            padding: 12px 25px;
-            background-color: #ff4757;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        button.restart-btn:hover {
-            background-color: #ff6b81;
-        }
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1, h2 { color: #333; text-align: center; }
+        .input-group, .result-group, .process-group { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+        
+        /* 输入部分样式 */
+        .inputs-flex { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+        .input-item { flex: 1; min-width: 200px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #555; }
+        input[type="number"], input[type="range"], select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
+        .range-container { display: flex; align-items: center; gap: 10px; }
+        .range-value { font-weight: bold; width: 30px; text-align: right; color: #1a73e8;}
+
+        /* 结果展示样式 */
+        .salary-display { font-size: 36px; font-weight: bold; color: #2e7d32; text-align: center; margin-top: 10px; }
+        .stat-list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
+        .stat-item { background: #f0f4f8; padding: 10px 20px; border-radius: 5px; border-left: 4px solid #1a73e8; font-size: 14px; color: #555; }
+        .stat-label { font-weight: bold; margin-bottom: 5px; display: block; }
+        .lost-day { border-left-color: #d32f2f; color: #d32f2f; }
+        
+        /* 计算过程样式 */
+        .process-list { list-style: decimal; padding-left: 30px; line-height: 1.8; color: #666; font-size: 15px; }
+        .math { font-family: monospace; }
+        .highlight { color: #1a73e8; font-weight: bold; }
+        .source-note { font-style: italic; color: #777; font-size: 13px; margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div id="intro-box">
-        <h1>赛博十二生肖测试</h1>
-        <p class="subtitle">仅需10题，测出你隐藏在人类皮囊下的真实（搞怪）生肖属性。</p>
-        <button class="restart-btn" onclick="startTest()">开始接受灵魂拷问</button>
-    </div>
+    <h1>劳动报酬计算工具</h1>
 
-    <div id="quiz-container">
+    <div class="input-group">
+        <h2>1. 输入信息</h2>
+        <div class="inputs-flex">
+            <div class="input-item">
+                <label for="inputYear">年份</label>
+                <select id="inputYear">
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026" selected>2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                    <option value="2029">2029</option>
+                    <option value="2030">2030</option>
+                </select>
+            </div>
+            <div class="input-item">
+                <label for="inputMonth">月份</label>
+                <select id="inputMonth">
+                    <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
+                    <option value="4" selected>4月</option><option value="5">5月</option><option value="6">6月</option>
+                    <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
+                    <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
+                </select>
+            </div>
+            <div class="input-item">
+                <label for="leaveDays">请假天数</label>
+                <div class="range-container">
+                    <input type="range" id="leaveDays" min="0" max="10" value="1" step="1">
+                    <span class="range-value" id="leaveDaysVal">1</span>
+                </div>
+            </div>
+            <div class="input-item">
+                <label for="baseCompensation">基本劳务报酬 (元)</label>
+                <input type="number" id="baseCompensation" value="4000" min="0">
+            </div>
         </div>
-
-    <div id="result-box">
-        <h2>你的赛博生肖是：</h2>
-        <div class="animal-icon" id="res-icon">🐒</div>
-        <div class="animal-name" id="res-name">暴躁吗喽</div>
-        <div class="animal-desc" id="res-desc">简介加载中...</div>
-        <button class="restart-btn" onclick="location.reload()">不准！我要重新投胎</button>
     </div>
+
+    <div class="result-group">
+        <h2>2. 结果展示</h2>
+        <p class="salary-display" id="finalSalary">0.00 元</p>
+        <ul class="stat-list">
+            <li class="stat-item"><span class="stat-label">当月法定工作日</span><span id="statWorkDays">0</span> 天</li>
+            <li class="stat-item"><span class="stat-label">实际出勤天数</span><span id="statAttendDays">0</span> 天</li>
+            <li class="stat-item"><span class="stat-label">税前所得 (劳务报酬)</span><span id="statGross">0.00</span> 元</li>
+            <li class="stat-item"><span class="stat-label">劳务税</span><span id="statTax">0.00</span> 元</li>
+        </ul>
+        <ul class="stat-list">
+            <li class="stat-item lost-day"><span class="stat-label">请假一天损失 (基本报酬扣除)</span><span id="statLossPerDayBase">0.00</span> 元</li>
+            <li class="stat-item lost-day"><span class="stat-label">请假一天实际减少所得 (含税收影响)</span><span id="statLossPerDayActual">0.00</span> 元</li>
+        </ul>
+    </div>
+
+    <div class="process-group">
+        <h2>3. 计算过程分解</h2>
+        <ul class="process-list" id="processDetails"></ul>
+        <p class="source-note">*税率说明：当所得额 ≤ 4000元采用规则：(劳务报酬-800) × 20%；> 4000元采用标准劳务报酬税率：劳务报酬 × (1-20%) × 20%。</p>
+    </div>
+
 </div>
 
 <script>
-    const questions = [
-        { q: "1. 走在路上突然被一只鸽子挡住了去路，你会？", options: ["假装自己是一座雕像", "和它进行一段即兴街舞 Battle"] },
-        { q: "2. 如果把你变成一种蔬菜，你会是？", options: ["一颗情绪不稳定的土豆", "一朵思考宇宙的西兰花"] },
-        { q: "3. 电脑突然卡死且没保存，你会？", options: ["双手合十，祈求赛博佛祖", "抄起水杯，准备物理超度主机"] },
-        { q: "4. 你理想中的周末状态是？", options: ["在床上进行光合作用", "在网上高强度“友好交流”"] },
-        { q: "5. 吃自助餐的核心战略？", options: ["专挑贵的，吃垮老板", "猛炫十盘蛋炒饭"] },
-        { q: "6. 希望获得的废柴超能力？", options: ["绝对没人时才能隐身", "能听懂狗骂你的话"] },
-        { q: "7. 在公共场合平地摔，为了缓解尴尬你会？", options: ["就地做二十个俯卧撑", "眼睛一闭，安详装死"] },
-        { q: "8. 你的日常睡眠状况像什么？", options: ["半夜两点还在刷手机的吸血鬼", "闹钟响了十八次还在冬眠的熊"] },
-        { q: "9. 面对突如其来的焦虑，你会？", options: ["咽下去，化作吃夜宵的动力", "熟练地传递给下一个倒霉蛋朋友"] },
-        { q: "10. 你最喜欢的“人类高质量饮品”是？", options: ["82年的冰镇无糖可乐", "前任流下的不甘的泪水"] }
-    ];
+    const inputs = {
+        year: document.getElementById('inputYear'),
+        month: document.getElementById('inputMonth'),
+        leaveDays: document.getElementById('leaveDays'),
+        baseComp: document.getElementById('baseCompensation')
+    };
 
-    const results = [
-        { icon: "🐁", name: "赛博仓鼠", desc: "手机里囤积了三万个表情包，但聊天永远只发“哈哈哈”。网络上重拳出击，现实里唯唯诺诺。" },
-        { icon: "🐂", name: "纯爱牛马", desc: "终极打工人！坚信努力就能成功，实际上只帮老板换了辆法拉利。看修驴蹄子视频都能感动哭。" },
-        { icon: "🐅", name: "键盘猛虎", desc: "游戏里是指挥千军万马的暴躁老哥，现实里去买奶茶连说“去冰半糖”都紧张得结巴。" },
-        { icon: "🐇", name: "狂暴流氓兔", desc: "外表人畜无害，内心有个小本本记下了所有人。驱动你活下去的动力是奶茶和无差别怨气。" },
-        { icon: "🐉", name: "精神小龙", desc: "中二病晚期。总觉得体内封印着神秘力量，实际上唯一的超能力是把电竞椅坐出腰间盘突出。" },
-        { icon: "🐍", name: "阴阳怪气蛇", desc: "语言艺术大师，最擅长回复“啊对对对”。能在聚会开始前5分钟，编出全宇宙最合理的理由放鸽子。" },
-        { icon: "🐎", name: "脱缰野马", desc: "混沌能量制造机。一天能冒出10个创业想法，0个落地。讲笑话时别人没笑，自己先笑得喘不过气。" },
-        { icon: "🐐", name: "纯种大冤羊", desc: "莫名其妙的乐天派，被人卖了还在数钱。哪怕生活成了一团乱麻，也会微笑着说这是宇宙的考验。" },
-        { icon: "🐒", name: "暴躁吗喽", desc: "精神状态在崩溃边缘反复横跳。日常口头禅是“毁灭吧赶紧的”，靠冰美式和一口仙气吊着命。" },
-        { icon: "🐓", name: "尖叫土拨鸡", desc: "遇到屁大点事就能原地起跳尖叫，但在遇到真正危机的时候，反而能睡得比猪还死。" },
-        { icon: "🐕", name: "顶级单身狗", desc: "对朋友仗义，但自己感情一塌糊涂。能给别人提供教科书级恋爱建议，自己却在深夜独自流泪。" },
-        { icon: "🐖", name: "摆烂香猪", desc: "深谙“只要我躺得够平，资本就割不到我”。明明能做成很多事，但终究败给一句“今天床上有结界”。" }
-    ];
+    const outputs = {
+        finalSalary: document.getElementById('finalSalary'),
+        statWorkDays: document.getElementById('statWorkDays'),
+        statAttendDays: document.getElementById('statAttendDays'),
+        statGross: document.getElementById('statGross'),
+        statTax: document.getElementById('statTax'),
+        statLossPerDayBase: document.getElementById('statLossPerDayBase'),
+        statLossPerDayActual: document.getElementById('statLossPerDayActual'),
+        process: document.getElementById('processDetails'),
+        leaveDaysVal: document.getElementById('leaveDaysVal')
+    };
 
-    let currentQ = 0;
-    let score = 0;
-
-    function startTest() {
-        document.getElementById('intro-box').style.display = 'none';
-        renderQuestions();
-        document.getElementById('q-0').classList.add('active');
-    }
-
-    function renderQuestions() {
-        const container = document.getElementById('quiz-container');
-        questions.forEach((qObj, index) => {
-            const div = document.createElement('div');
-            div.className = 'question-box';
-            div.id = 'q-' + index;
-            
-            const title = document.createElement('div');
-            title.className = 'question-title';
-            title.innerText = qObj.q;
-            div.appendChild(title);
-
-            qObj.options.forEach((optText, optIndex) => {
-                const btn = document.createElement('button');
-                btn.className = 'option';
-                btn.innerText = (optIndex === 0 ? "A. " : "B. ") + optText;
-                // 随意给选项赋分值，增加随机性
-                const point = optIndex === 0 ? Math.floor(Math.random() * 3) + 1 : Math.floor(Math.random() * 5) + 3;
-                btn.onclick = () => nextQuestion(index, point);
-                div.appendChild(btn);
-            });
-
-            container.appendChild(div);
-        });
-    }
-
-    function nextQuestion(index, points) {
-        score += points;
-        document.getElementById('q-' + index).classList.remove('active');
-        if (index + 1 < questions.length) {
-            document.getElementById('q-' + (index + 1)).classList.add('active');
-        } else {
-            showResult();
+    // 简单的中国法定工作日计算函数 (基于通用双休规则)
+    function getWorkDays(year, month) {
+        let totalDays = new Date(year, month, 0).getDate();
+        let workDays = 0;
+        for (let day = 1; day <= totalDays; day++) {
+            let date = new Date(year, month - 1, day);
+            let dayOfWeek = date.getDay(); // 0: 周日, 6: 周六
+            if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+                workDays++;
+            }
         }
+        return workDays;
     }
 
-    function showResult() {
-        // 利用取模运算随机映射到一个生肖
-        const resultIndex = score % 12;
-        const finalRes = results[resultIndex];
+    // 核心计算逻辑
+    function calculateSalary(params) {
+        const { base, workDays, leaveDays } = params;
+        const attendDays = Math.max(0, workDays - leaveDays);
+
+        // A. 税前折算
+        const grossSalary = (attendDays / workDays) * base;
+        const taxableIncome = grossSalary;
+
+        // B. 劳务税计算
+        let tax = 0;
+        let taxRuleUsed = '';
         
-        document.getElementById('res-icon').innerText = finalRes.icon;
-        document.getElementById('res-name').innerText = finalRes.name;
-        document.getElementById('res-desc').innerText = finalRes.desc;
+        if (taxableIncome <= 800) {
+            tax = 0;
+            taxRuleUsed = '所得 ≤ 800元 免税';
+        } else if (taxableIncome > 800 && taxableIncome <= 4000) {
+            tax = (taxableIncome - 800) * 0.20;
+            taxRuleUsed = '(劳务报酬 - 800) × 20%';
+        } else {
+            // 超过4000元，采用标准计税 (扣除20%费用后，按20%税率)
+            tax = (taxableIncome * 0.8) * 0.20;
+            taxRuleUsed = '劳务报酬 × (1-20%) × 20%';
+        }
+
+        // C. 最终到账
+        const finalSalary = grossSalary - tax;
+
+        // 额外的请假损失分析
+        const baseDayRate = base / workDays;
         
-        document.getElementById('result-box').style.display = 'block';
+        // 计算多请假一天导致的实际收入减少
+        const paramsMoreLeave = { ...params, leaveDays: leaveDays + 1 };
+        const paramsMoreLeaveResults = calculateSalarySimple(paramsMoreLeave);
+        const actualLossPerDay = paramsMoreLeaveResults > 0 ? (finalSalary - paramsMoreLeaveResults) : finalSalary;
+
+        return {
+            attendDays, grossSalary, taxableIncome, tax, taxRuleUsed, finalSalary, baseDayRate, actualLossPerDay
+        };
     }
+    
+    // 用于内部损失计算的简化版本
+    function calculateSalarySimple(params) {
+        const { base, workDays, leaveDays } = params;
+        const attendDays = Math.max(0, workDays - leaveDays);
+        if(attendDays < 0) return 0;
+        const grossSalary = (attendDays / workDays) * base;
+        let tax = 0;
+        if (grossSalary <= 800) tax = 0;
+        else if (grossSalary > 800 && grossSalary <= 4000) tax = (grossSalary - 800) * 0.20;
+        else tax = (grossSalary * 0.8) * 0.20;
+        return grossSalary - tax;
+    }
+
+    // UI 更新和计算过程展示
+    function updateUI() {
+        const year = parseInt(inputs.year.value);
+        const month = parseInt(inputs.month.value);
+        const leaveDays = parseInt(inputs.leaveDays.value);
+        const base = parseFloat(inputs.baseComp.value) || 0;
+
+        const workDays = getWorkDays(year, month);
+        inputs.leaveDays.max = workDays; // 动态更新最大请假天数
+        
+        // 防止请假天数超过当月工作日
+        const validLeaveDays = Math.min(leaveDays, workDays);
+        if (leaveDays !== validLeaveDays) {
+            inputs.leaveDays.value = validLeaveDays;
+        }
+        outputs.leaveDaysVal.textContent = validLeaveDays;
+
+        const results = calculateSalary({ base, workDays, leaveDays: validLeaveDays });
+
+        // 更新结果展示
+        outputs.finalSalary.textContent = results.finalSalary.toFixed(2) + ' 元';
+        outputs.statWorkDays.textContent = workDays;
+        outputs.statAttendDays.textContent = results.attendDays;
+        outputs.statGross.textContent = results.grossSalary.toFixed(2);
+        outputs.statTax.textContent = results.tax.toFixed(2);
+        
+        outputs.statLossPerDayBase.textContent = results.baseDayRate.toFixed(2);
+        outputs.statLossPerDayActual.textContent = results.actualLossPerDay.toFixed(2);
+
+        // 更新计算过程分解
+        outputs.process.innerHTML = `
+            <li>当月工作日: <span class="highlight">${workDays}</span> 天。</li>
+            <li>请假 <span class="highlight">${validLeaveDays}</span> 天，正常出勤 <span class="highlight">${results.attendDays}</span> 天。</li>
+            <li>税前报酬 (按出勤比例折算): <span class="math">${results.attendDays} &divide; ${workDays} &times; ${base.toFixed(2)} = <span class="highlight">${results.grossSalary.toFixed(2)}</span></span> 元。</li>
+            <li>劳务税计算 (${results.taxRuleUsed}): <span class="highlight">${results.tax.toFixed(2)}</span> 元。</li>
+            <li>最终到账工资: <span class="math">${results.grossSalary.toFixed(2)} - ${results.tax.toFixed(2)} = <span class="highlight">${results.finalSalary.toFixed(2)}</span></span> 元。</li>
+        `;
+    }
+
+    // 初始化和绑定事件
+    document.addEventListener('DOMContentLoaded', () => {
+        Object.values(inputs).forEach(input => input.addEventListener('input', updateUI));
+        updateUI();
+    });
+
 </script>
-
 </body>
 </html>
